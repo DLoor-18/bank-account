@@ -1,9 +1,9 @@
 package ec.com.example.bank_account.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,9 +22,13 @@ public class TransactionRequestDTO implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date date;
-    @NotBlank
+    @NotNull
+    @Size(min = 10, max = 10)
+    @Pattern(regexp = "^[0-9]+$")
     private String accountNumber;
-    @NotBlank
+    @NotNull
+    @Size(max = 150)
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ .,;]+$")
     private String details;
     @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
     private String status;

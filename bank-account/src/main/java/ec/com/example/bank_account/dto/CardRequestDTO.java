@@ -1,7 +1,6 @@
 package ec.com.example.bank_account.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -18,12 +17,15 @@ import java.util.Date;
 @AllArgsConstructor
 public class CardRequestDTO implements Serializable {
 
-    @NotBlank
+    @NotNull
+    @Size(max = 30)
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$")
     private String holderName;
     @NotNull
     private Double limitation;
-    @NotBlank
+    @NotNull
     @Size(min = 3, max = 3)
+    @Pattern(regexp = "^[0-9]+$")
     private String cvcCode;
     @JsonFormat(pattern = "dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")

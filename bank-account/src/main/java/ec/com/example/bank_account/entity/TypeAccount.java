@@ -1,5 +1,6 @@
 package ec.com.example.bank_account.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,7 +24,8 @@ public class TypeAccount {
     @Column(name = "status")
     private String status;
 
-   /* @OneToMany(mappedBy = "typeAccount", orphanRemoval = true)
-    private List<Account> accounts;*/
+    @OneToMany(mappedBy = "typeAccount", orphanRemoval = true)
+    @JsonIgnore
+    private List<Account> accounts;
 
 }

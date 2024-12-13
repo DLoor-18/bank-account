@@ -1,6 +1,5 @@
 package ec.com.example.bank_account.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

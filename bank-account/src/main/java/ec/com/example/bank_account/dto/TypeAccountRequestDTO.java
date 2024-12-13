@@ -1,9 +1,6 @@
 package ec.com.example.bank_account.dto;
 
-import ec.com.example.bank_account.entity.Account;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -17,10 +14,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TypeAccountRequestDTO implements Serializable {
 
-    @NotBlank
+
+    @NotNull
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$")
     private String type;
-    @NotBlank
+    @NotNull
     @Size(max = 100)
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ .,;]+$")
     private String description;
     @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
     private String status;

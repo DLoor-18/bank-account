@@ -1,5 +1,6 @@
 package ec.com.example.bank_account.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -33,6 +34,7 @@ public class User {
     private String status;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @JsonIgnore
     private List<Account> accounts;
 
 }

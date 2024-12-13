@@ -1,6 +1,5 @@
 package ec.com.example.bank_account.dto;
 
-import ec.com.example.bank_account.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,5 @@
 package ec.com.example.bank_account.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -14,9 +13,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TypeTransactionRequestDTO implements Serializable {
 
-    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ -]+$")
     private String type;
-    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ .,;]+$")
     private String description;
     @NotNull
     private Double value;
