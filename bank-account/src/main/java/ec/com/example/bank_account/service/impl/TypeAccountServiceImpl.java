@@ -31,21 +31,21 @@ public class TypeAccountServiceImpl implements TypeAccountService {
             typeAccountRepository.save(typeAccountMapper.mapToEntity(typeAccount));
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en createTypeAccount() {}", e.getMessage());
+            throw e;
         }
     }
 
     @Override
-    public ResponseEntity<List<TypeAccountResponseDTO>> findAll() {
+    public ResponseEntity<List<TypeAccountResponseDTO>> getAllTypeAccount() {
         try {
            List<TypeAccountResponseDTO> response =  typeAccountRepository.findAll()
                    .stream().map(typeAccountMapper::mapToDTO).collect(Collectors.toList());
 
            return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getAllTypeAccount() {}", e.getMessage());
+            throw e;
         }
     }
 }

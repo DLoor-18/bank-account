@@ -2,7 +2,6 @@ package ec.com.example.bank_account.service.impl;
 
 import ec.com.example.bank_account.dto.UserRequestDTO;
 import ec.com.example.bank_account.dto.UserResponseDTO;
-import ec.com.example.bank_account.entity.User;
 import ec.com.example.bank_account.mapper.UserMapper;
 import ec.com.example.bank_account.repository.UserRepository;
 import ec.com.example.bank_account.service.UserService;
@@ -32,8 +31,8 @@ public class UserServiceImpl implements UserService {
             userRepository.save(userMapper.mapToEntity(user));
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en createUser() {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -45,8 +44,8 @@ public class UserServiceImpl implements UserService {
 
             return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getAllUsers() {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -58,8 +57,8 @@ public class UserServiceImpl implements UserService {
                     ResponseEntity.noContent().build();
 
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getUserByCi() {}", e.getMessage());
+            throw e;
         }
     }
 }

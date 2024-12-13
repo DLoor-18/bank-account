@@ -1,6 +1,5 @@
 package ec.com.example.bank_account.service.impl;
 
-import ec.com.example.bank_account.dto.TypeAccountResponseDTO;
 import ec.com.example.bank_account.dto.TypeTransactionRequestDTO;
 import ec.com.example.bank_account.dto.TypeTransactionResponseDTO;
 import ec.com.example.bank_account.mapper.TypeTransactionMapper;
@@ -31,8 +30,8 @@ public class TypeTransactionServiceImpl implements TypeTransactionService {
             typeTransactionRepository.save(typeTransactionMapper.mapToEntity(typeTransaction));
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en createTypeTransaction() {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -44,8 +43,8 @@ public class TypeTransactionServiceImpl implements TypeTransactionService {
 
             return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getAllTypeTransactions() {}", e.getMessage());
+            throw e;
         }
     }
 }

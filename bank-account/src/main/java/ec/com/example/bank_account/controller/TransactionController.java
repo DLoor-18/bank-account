@@ -26,7 +26,7 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<TransactionResponseDTO>> getTransactions() {
-        return transactionService.getTransactions();
+        return transactionService.getAllTransactions();
     }
 
 }

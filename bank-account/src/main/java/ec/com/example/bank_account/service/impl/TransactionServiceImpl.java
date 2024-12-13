@@ -61,21 +61,21 @@ public class TransactionServiceImpl implements TransactionService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en createTransaction() {}", e.getMessage());
+            throw e;
         }
     }
 
     @Override
-    public ResponseEntity<List<TransactionResponseDTO>> getTransactions() {
+    public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions() {
         try {
             List<TransactionResponseDTO> response = transactionRepository.findAll()
                     .stream().map(transactionMapper::mapToDTO).collect(Collectors.toList());
 
             return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getAllTransactions() {}", e.getMessage());
+            throw e;
         }
     }
 }

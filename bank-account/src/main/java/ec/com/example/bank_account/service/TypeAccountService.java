@@ -10,6 +10,6 @@ public interface TypeAccountService {
 
     ResponseEntity<TypeAccountResponseDTO> createTypeAccount(TypeAccountRequestDTO typeAccount);
 
-    ResponseEntity<List<TypeAccountResponseDTO>> findAll();
+    ResponseEntity<List<TypeAccountResponseDTO>> getAllTypeAccount();
 
 }

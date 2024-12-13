@@ -31,8 +31,8 @@ public class CardServiceImpl implements CardService {
             cardRepository.save(cardMapper.mapToEntity(card));
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en createCard() {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -44,8 +44,8 @@ public class CardServiceImpl implements CardService {
 
             return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getAllCards() {}", e.getMessage());
+            throw e;
         }
     }
 }

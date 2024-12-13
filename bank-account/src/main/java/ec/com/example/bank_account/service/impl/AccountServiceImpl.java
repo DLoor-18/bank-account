@@ -30,8 +30,8 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.save(accountMapper.mapToEntity(accountRequestDTO));
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en createAccount() {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -43,8 +43,8 @@ public class AccountServiceImpl implements AccountService {
 
             return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            log.error("Error en getAllAccounts() {}", e.getMessage());
+            throw e;
         }
     }
 }

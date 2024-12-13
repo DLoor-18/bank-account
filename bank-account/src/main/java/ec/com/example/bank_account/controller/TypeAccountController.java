@@ -26,6 +26,6 @@ public class TypeAccountController {
 
     @GetMapping
     public ResponseEntity<List<TypeAccountResponseDTO>> getTypesAccount() {
-        return typeAccountService.findAll();
+        return typeAccountService.getAllTypeAccount();
     }
 }

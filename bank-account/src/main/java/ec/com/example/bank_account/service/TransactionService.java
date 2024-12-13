@@ -10,6 +10,6 @@ public interface TransactionService {
 
     ResponseEntity<TransactionResponseDTO> createTransaction(TransactionRequestDTO transactionRequestDTO);
 
-    ResponseEntity<List<TransactionResponseDTO>> getTransactions();
+    ResponseEntity<List<TransactionResponseDTO>> getAllTransactions();
 
 }
