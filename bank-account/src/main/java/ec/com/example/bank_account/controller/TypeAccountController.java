@@ -21,11 +21,17 @@ public class TypeAccountController {
 
     @PostMapping
     public ResponseEntity<TypeAccountResponseDTO> createTypeAccount(@Valid @RequestBody TypeAccountRequestDTO typeAccount) {
-        return typeAccountService.createTypeAccount(typeAccount);
+        TypeAccountResponseDTO response = typeAccountService.createTypeAccount(typeAccount);
+        return response != null  ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.badRequest().build();
     }
 
     @GetMapping
     public ResponseEntity<List<TypeAccountResponseDTO>> getTypesAccount() {
-        return typeAccountService.getAllTypeAccount();
+        List<TypeAccountResponseDTO> response = typeAccountService.getAllTypeAccount();
+        return !response.isEmpty()  ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.noContent().build();
     }
 }

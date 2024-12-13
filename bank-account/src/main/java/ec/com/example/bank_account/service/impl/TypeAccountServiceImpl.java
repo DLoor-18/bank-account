@@ -6,8 +6,7 @@ import ec.com.example.bank_account.mapper.TypeAccountMapper;
 import ec.com.example.bank_account.repository.TypeAccountRepository;
 import ec.com.example.bank_account.service.TypeAccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +25,9 @@ public class TypeAccountServiceImpl implements TypeAccountService {
     }
 
     @Override
-    public ResponseEntity<TypeAccountResponseDTO> createTypeAccount(TypeAccountRequestDTO typeAccount) {
+    public TypeAccountResponseDTO createTypeAccount(TypeAccountRequestDTO typeAccount) {
         try {
-            typeAccountRepository.save(typeAccountMapper.mapToEntity(typeAccount));
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return typeAccountMapper.mapToDTO(typeAccountRepository.save(typeAccountMapper.mapToEntity(typeAccount)));
         } catch (Exception e) {
             log.error("Error en createTypeAccount() {}", e.getMessage());
             throw e;
@@ -37,12 +35,11 @@ public class TypeAccountServiceImpl implements TypeAccountService {
     }
 
     @Override
-    public ResponseEntity<List<TypeAccountResponseDTO>> getAllTypeAccount() {
+    public List<TypeAccountResponseDTO> getAllTypeAccount() {
         try {
-           List<TypeAccountResponseDTO> response =  typeAccountRepository.findAll()
+            return typeAccountRepository.findAll()
                    .stream().map(typeAccountMapper::mapToDTO).collect(Collectors.toList());
 
-           return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error en getAllTypeAccount() {}", e.getMessage());
             throw e;

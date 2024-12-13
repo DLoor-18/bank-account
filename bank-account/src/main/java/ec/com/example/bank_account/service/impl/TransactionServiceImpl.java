@@ -8,8 +8,7 @@ import ec.com.example.bank_account.repository.AccountRepository;
 import ec.com.example.bank_account.repository.TransactionRepository;
 import ec.com.example.bank_account.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ResponseEntity<TransactionResponseDTO> createTransaction(TransactionRequestDTO transactionRequestDTO) {
+    public TransactionResponseDTO createTransaction(TransactionRequestDTO transactionRequestDTO) {
         try {
             Transaction transaction = transactionMapper.mapToEntity(transactionRequestDTO);
 
@@ -37,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
 
                 if (!transaction.getTypeTransaction().getTransactionCost() &&
                         transaction.getTypeTransaction().getValue() >= transaction.getValue())
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    return null;
 
                 Double balance = transaction.getAccount().getAvailableBalance() - transaction.getTypeTransaction().getValue();
 
@@ -45,7 +44,7 @@ public class TransactionServiceImpl implements TransactionService {
                     if (balance >= transaction.getValue()) {
                         balance -= transaction.getValue();
                     } else {
-                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                        return null;
                     }
                 } else {
                     balance += transaction.getValue();
@@ -53,12 +52,11 @@ public class TransactionServiceImpl implements TransactionService {
                 transaction.getAccount().setAvailableBalance(balance);
 
                 accountRepository.saveAndFlush(transaction.getAccount());
-                transactionRepository.save(transaction);
-                return ResponseEntity.status(HttpStatus.CREATED).build();
+                return transactionMapper.mapToDTO(transactionRepository.save(transaction));
 
             }
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return null;
 
         } catch (Exception e) {
             log.error("Error en createTransaction() {}", e.getMessage());
@@ -67,12 +65,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions() {
+    public List<TransactionResponseDTO> getAllTransactions() {
         try {
-            List<TransactionResponseDTO> response = transactionRepository.findAll()
+            return transactionRepository.findAll()
                     .stream().map(transactionMapper::mapToDTO).collect(Collectors.toList());
 
-            return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error en getAllTransactions() {}", e.getMessage());
             throw e;

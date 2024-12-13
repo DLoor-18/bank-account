@@ -20,12 +20,18 @@ public class TypeTransactionController {
 
     @PostMapping
     public ResponseEntity<TypeTransactionResponseDTO> createTypeTransaction(@Valid @RequestBody TypeTransactionRequestDTO typeTransaction) {
-        return typeTransactionService.createTypeTransaction(typeTransaction);
+        TypeTransactionResponseDTO response = typeTransactionService.createTypeTransaction(typeTransaction);
+        return response != null  ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.badRequest().build();
     }
 
     @GetMapping
     public ResponseEntity<List<TypeTransactionResponseDTO>> getAllTypeTransactions() {
-        return typeTransactionService.getAllTypeTransactions();
+        List<TypeTransactionResponseDTO> response = typeTransactionService.getAllTypeTransactions();
+        return !response.isEmpty() ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.noContent().build();
     }
 
 }

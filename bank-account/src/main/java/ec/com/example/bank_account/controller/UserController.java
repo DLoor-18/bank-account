@@ -20,17 +20,27 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Void> createUser(@Valid @RequestBody UserRequestDTO user) {
-        return userService.createUser(user);
+        UserResponseDTO response = userService.createUser(user);
+        return response != null ?
+                ResponseEntity.ok().build() :
+                ResponseEntity.badRequest().build();
     }
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        return userService.getAllUsers();
+        List<UserResponseDTO> response = userService.getAllUsers();
+        return !response.isEmpty() ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.noContent().build();
+
     }
 
     @GetMapping("/find-ci/{ci}")
-    public ResponseEntity<UserResponseDTO> getUserByCi(@PathVariable("ci") String ci){
-        return userService.getUserByCi(ci);
+    public ResponseEntity<UserResponseDTO> getUserByCi(@PathVariable("ci") String ci) {
+        UserResponseDTO response = userService.getUserByCi(ci);
+        return response != null ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.badRequest().build();
     }
 
 }

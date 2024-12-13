@@ -6,10 +6,9 @@ import ec.com.example.bank_account.mapper.AccountMapper;
 import ec.com.example.bank_account.repository.AccountRepository;
 import ec.com.example.bank_account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,10 +24,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseEntity<AccountResponseDTO> createAccount(AccountRequestDTO accountRequestDTO) {
+    public AccountResponseDTO createAccount(AccountRequestDTO accountRequestDTO) {
         try {
-            accountRepository.save(accountMapper.mapToEntity(accountRequestDTO));
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return accountMapper.mapToDTO(accountRepository.save(accountMapper.mapToEntity(accountRequestDTO)));
         } catch (Exception e) {
             log.error("Error en createAccount() {}", e.getMessage());
             throw e;
@@ -36,12 +34,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseEntity<List<AccountResponseDTO>> getAllAccounts() {
+    public List<AccountResponseDTO> getAllAccounts() {
         try {
             List<AccountResponseDTO> response = accountRepository.findAll().stream()
                     .map(accountMapper::mapToDTO).collect(Collectors.toList());
 
-            return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
+            return !response.isEmpty() ? response : Collections.emptyList();
         } catch (Exception e) {
             log.error("Error en getAllAccounts() {}", e.getMessage());
             throw e;

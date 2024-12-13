@@ -6,10 +6,9 @@ import ec.com.example.bank_account.mapper.CardMapper;
 import ec.com.example.bank_account.repository.CardRepository;
 import ec.com.example.bank_account.service.CardService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,10 +25,9 @@ public class CardServiceImpl implements CardService {
 
 
     @Override
-    public ResponseEntity<CardResponseDTO> createCard(CardRequestDTO card) {
+    public CardResponseDTO createCard(CardRequestDTO card) {
         try {
-            cardRepository.save(cardMapper.mapToEntity(card));
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return cardMapper.mapToDTO(cardRepository.save(cardMapper.mapToEntity(card)));
         } catch (Exception e) {
             log.error("Error en createCard() {}", e.getMessage());
             throw e;
@@ -37,12 +35,12 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public ResponseEntity<List<CardResponseDTO>> getAllCards() {
+    public List<CardResponseDTO> getAllCards() {
         try {
             List<CardResponseDTO> response = cardRepository.findAll().stream()
                     .map(cardMapper::mapToDTO).collect(Collectors.toList());
 
-            return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
+            return !response.isEmpty() ? response : Collections.emptyList();
         } catch (Exception e) {
             log.error("Error en getAllCards() {}", e.getMessage());
             throw e;

@@ -20,12 +20,18 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<CardResponseDTO> createCard(@Valid @RequestBody CardRequestDTO card) {
-        return cardService.createCard(card);
+        CardResponseDTO response = cardService.createCard(card);
+        return response != null ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.badRequest().build();
     }
 
     @GetMapping
     public ResponseEntity<List<CardResponseDTO>> getAllCards() {
-        return cardService.getAllCards();
+        List<CardResponseDTO> response = cardService.getAllCards();
+        return !response.isEmpty() ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.noContent().build();
     }
 
 }

@@ -6,8 +6,6 @@ import ec.com.example.bank_account.mapper.UserMapper;
 import ec.com.example.bank_account.repository.UserRepository;
 import ec.com.example.bank_account.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Void> createUser(UserRequestDTO user) {
+    public UserResponseDTO createUser(UserRequestDTO user) {
         try {
-            userRepository.save(userMapper.mapToEntity(user));
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return userMapper.mapToDTO(userRepository.save(userMapper.mapToEntity(user)));
         } catch (Exception e) {
             log.error("Error en createUser() {}", e.getMessage());
             throw e;
@@ -37,12 +34,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         try {
-            List<UserResponseDTO> response = userRepository.findAll().stream()
+            return userRepository.findAll().stream()
                     .map(userMapper::mapToDTO).collect(Collectors.toList());
 
-            return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error en getAllUsers() {}", e.getMessage());
             throw e;
@@ -50,11 +46,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<UserResponseDTO> getUserByCi(String ci) {
+    public UserResponseDTO getUserByCi(String ci) {
         try {
             return userRepository.findByCi(ci) != null ?
-                    ResponseEntity.ok(userMapper.mapToDTO(userRepository.findByCi(ci))) :
-                    ResponseEntity.noContent().build();
+                    userMapper.mapToDTO(userRepository.findByCi(ci)) :
+                    null;
 
         } catch (Exception e) {
             log.error("Error en getUserByCi() {}", e.getMessage());

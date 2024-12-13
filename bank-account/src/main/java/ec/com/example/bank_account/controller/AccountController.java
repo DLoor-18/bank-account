@@ -20,11 +20,19 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<AccountResponseDTO> createAccount(@Valid @RequestBody AccountRequestDTO account) {
-        return accountService.createAccount(account);
+        AccountResponseDTO response = accountService.createAccount(account);
+        return response != null?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.badRequest().build();
+
     }
 
     @GetMapping
     public ResponseEntity<List<AccountResponseDTO>> getAccounts() {
-        return accountService.getAllAccounts();
+        List<AccountResponseDTO> response = accountService.getAllAccounts();
+        return !response.isEmpty() ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.noContent().build();
+
     }
 }

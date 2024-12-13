@@ -14,7 +14,7 @@ public class TypeTransaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
+    @Column(name = "type", unique = true)
     private String type;
 
     @Column(name = "description")

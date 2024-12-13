@@ -2,7 +2,6 @@ package ec.com.example.bank_account.controller;
 
 import ec.com.example.bank_account.dto.TransactionRequestDTO;
 import ec.com.example.bank_account.dto.TransactionResponseDTO;
-import ec.com.example.bank_account.entity.Transaction;
 import ec.com.example.bank_account.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +20,18 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<TransactionResponseDTO> createTransaction(@Valid @RequestBody TransactionRequestDTO transaction) {
-        return transactionService.createTransaction(transaction);
+        TransactionResponseDTO response = transactionService.createTransaction(transaction);
+        return response != null ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.badRequest().build();
     }
 
     @GetMapping
     public ResponseEntity<List<TransactionResponseDTO>> getTransactions() {
-        return transactionService.getAllTransactions();
+        List<TransactionResponseDTO> response = transactionService.getAllTransactions();
+        return !response.isEmpty() ?
+                ResponseEntity.ok().body(response) :
+                ResponseEntity.noContent().build();
     }
 
 }
