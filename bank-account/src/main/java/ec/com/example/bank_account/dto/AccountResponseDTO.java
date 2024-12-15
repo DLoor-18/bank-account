@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -12,8 +13,8 @@ import java.io.Serializable;
 public class AccountResponseDTO implements Serializable {
 
     private String number;
-    private Double availableBalance;
-    private Double retainedBalance;
+    private BigDecimal availableBalance;
+    private BigDecimal retainedBalance;
     private String status;
 
     private UserResponseDTO user;

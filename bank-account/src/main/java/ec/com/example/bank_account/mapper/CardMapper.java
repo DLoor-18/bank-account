@@ -4,6 +4,7 @@ import ec.com.example.bank_account.dto.CardRequestDTO;
 import ec.com.example.bank_account.dto.CardResponseDTO;
 import ec.com.example.bank_account.entity.Account;
 import ec.com.example.bank_account.entity.Card;
+import ec.com.example.bank_account.exception.RecordNotFoundException;
 import ec.com.example.bank_account.repository.AccountRepository;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class CardMapper {
         }
 
         Account account = accountRepository.findById(dto.getAccountId())
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new RecordNotFoundException("Account not found."));
 
 
         Card card = new Card();

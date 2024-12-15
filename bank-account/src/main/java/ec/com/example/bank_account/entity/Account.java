@@ -1,46 +1,45 @@
 package ec.com.example.bank_account.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "accounts")
+@Document(collection = "accounts")
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "number", unique = true)
+    @Indexed(unique = true)
+    @Field(name = "number")
     private String number;
 
-    @Column(name = "available_balance")
-    private Double availableBalance;
+    @Field(name = "available_balance")
+    private BigDecimal availableBalance;
 
-    @Column(name = "retained_balance")
-    private Double retainedBalance;
+    @Field(name = "retained_balance")
+    private BigDecimal retainedBalance;
 
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @JoinColumn(name = "id_user")
-    @ManyToOne
+    @DBRef
     private User user;
 
-    @JoinColumn(name = "id_type_account")
-    @ManyToOne
+    @DBRef
     private TypeAccount typeAccount;
 
-    @OneToMany(mappedBy = "account", orphanRemoval = true)
-    @JsonIgnore
+    @DBRef
     private List<Card> cards;
 
-    @OneToMany(mappedBy = "account", orphanRemoval = true)
-    @JsonIgnore
+    @DBRef
     private List<Transaction> transactions;
 
 }

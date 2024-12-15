@@ -2,6 +2,8 @@ package ec.com.example.bank_account.service.impl;
 
 import ec.com.example.bank_account.dto.UserRequestDTO;
 import ec.com.example.bank_account.dto.UserResponseDTO;
+import ec.com.example.bank_account.entity.User;
+import ec.com.example.bank_account.exception.EmptyCollectionException;
 import ec.com.example.bank_account.mapper.UserMapper;
 import ec.com.example.bank_account.repository.UserRepository;
 import ec.com.example.bank_account.service.UserService;
@@ -25,36 +27,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO user) {
-        try {
-            return userMapper.mapToDTO(userRepository.save(userMapper.mapToEntity(user)));
-        } catch (Exception e) {
-            log.error("Error en createUser() {}", e.getMessage());
-            throw e;
-        }
+        return userMapper.mapToDTO(userRepository.save(userMapper.mapToEntity(user)));
     }
 
     @Override
     public List<UserResponseDTO> getAllUsers() {
-        try {
-            return userRepository.findAll().stream()
-                    .map(userMapper::mapToDTO).collect(Collectors.toList());
+        List<UserResponseDTO> response = userRepository.findAll().stream()
+                .map(userMapper::mapToDTO).collect(Collectors.toList());
 
-        } catch (Exception e) {
-            log.error("Error en getAllUsers() {}", e.getMessage());
-            throw e;
+        if (response.isEmpty()) {
+            throw new EmptyCollectionException("No users records found.");
         }
+        return response;
     }
 
     @Override
     public UserResponseDTO getUserByCi(String ci) {
-        try {
-            return userRepository.findByCi(ci) != null ?
-                    userMapper.mapToDTO(userRepository.findByCi(ci)) :
-                    null;
+        User response = userRepository.findByCi(ci);
 
-        } catch (Exception e) {
-            log.error("Error en getUserByCi() {}", e.getMessage());
-            throw e;
+        if (response == null) {
+            throw new EmptyCollectionException("No user record found.");
         }
+        return userMapper.mapToDTO(response);
     }
 }

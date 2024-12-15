@@ -5,6 +5,7 @@ import ec.com.example.bank_account.dto.AccountResponseDTO;
 import ec.com.example.bank_account.entity.Account;
 import ec.com.example.bank_account.entity.TypeAccount;
 import ec.com.example.bank_account.entity.User;
+import ec.com.example.bank_account.exception.RecordNotFoundException;
 import ec.com.example.bank_account.repository.TypeAccountRepository;
 import ec.com.example.bank_account.repository.UserRepository;
 import org.springframework.stereotype.Component;
@@ -31,12 +32,12 @@ public class AccountMapper {
         account.setStatus(dto.getStatus());
 
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RecordNotFoundException("User not found."));
         account.setUser(user);
 
         TypeAccount typeAccount = typeAccountRepository
                 .findById(dto.getTypeAccountId())
-                .orElseThrow(() -> new RuntimeException("TypeAccount not found"));
+                .orElseThrow(() -> new RecordNotFoundException("TypeAccount not found."));
         account.setTypeAccount(typeAccount);
 
         return account;

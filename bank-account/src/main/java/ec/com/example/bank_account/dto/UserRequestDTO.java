@@ -15,24 +15,24 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class UserRequestDTO implements Serializable {
 
-    @NotNull
-    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$")
+    @NotNull(message = "firstName cannot be null")
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$", message = "Incorrect firstName format")
     private String firstName;
-    @NotNull
-    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$")
+    @NotNull(message = "lastName cannot be null")
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$", message = "Incorrect lastName format")
     private String lastName;
-    @NotNull
-    @Pattern(regexp = "^[0-9]+$")
-    @Size(min = 10, max = 10)
+    @NotNull(message = "ci cannot be null")
+    @Pattern(regexp = "^[0-9]+$", message = "Incorrect ci format")
+    @Size(min = 10, max = 10, message = "Incorrect ci length")
     private String ci;
-    @NotNull
-    @Email
+    @NotNull(message = "email cannot be null")
+    @Email( message = "Invalid email")
     private String email;
-    @NotNull
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).+$")
-    @Size(min = 8, max = 16)
+    @NotNull(message = "password cannot be null")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).+$", message = "Incorrect password format")
+    @Size(min = 8, max = 16, message = "Incorrect password length")
     private String password;
-    @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
+    @Pattern(regexp = "^(ACTIVE|INACTIVE)$", message = "Incorrect status")
     private String status;
 
 }

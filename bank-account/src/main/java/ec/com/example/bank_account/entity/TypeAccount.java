@@ -1,31 +1,30 @@
 package ec.com.example.bank_account.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "types_account")
+@Document(collection = "types_account")
 public class TypeAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "type")
+    @Field(name = "type")
     private String type;
 
-    @Column(name = "description")
+    @Field(name = "description")
     private String description;
 
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "typeAccount", orphanRemoval = true)
-    @JsonIgnore
+    @DBRef
     private List<Account> accounts;
 
 }

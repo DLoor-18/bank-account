@@ -1,40 +1,42 @@
 package ec.com.example.bank_account.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "users")
+@Document(collection = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "first_name")
+    @Field(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Field(name = "last_name")
     private String lastName;
 
-    @Column(name = "ci", unique = true)
+    @Indexed(unique = true)
+    @Field(name = "ci")
     private String ci;
 
-    @Column(name = "email", unique = true)
+    @Indexed(unique = true)
+    @Field(name = "email")
     private String email;
 
-    @Column(name = "password")
+    @Field(name = "password")
     private String password;
 
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    @JsonIgnore
+    @DBRef
     private List<Account> accounts;
 
 }

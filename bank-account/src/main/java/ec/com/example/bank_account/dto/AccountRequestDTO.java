@@ -8,24 +8,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class AccountRequestDTO implements Serializable {
 
-    @NotNull
-    @Pattern(regexp = "^[0-9]+$")
-    @Size(min = 10, max = 10)
+    @NotNull(message = "number cannot be null")
+    @Pattern(regexp = "^[0-9]+$", message = "Incorrect number format")
+    @Size(min = 10, max = 10, message = "Incorrect number length")
     private String number;
-    @NotNull
-    private Double availableBalance;
-    @NotNull
-    private Double retainedBalance;
-    @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
+    @NotNull(message = "availableBalance cannot be null")
+    private BigDecimal availableBalance;
+    @NotNull(message = "retainedBalance cannot be null")
+    private BigDecimal retainedBalance;
+    @Pattern(regexp = "^(ACTIVE|INACTIVE)$", message = "Incorrect status")
     private String status;
-    @NotNull
-    private Long userId;
-    @NotNull
-    private Long typeAccountId;
+    @NotNull(message = "userId cannot be null")
+    private String userId;
+    @NotNull(message = "typeAccountId cannot be null")
+    private String typeAccountId;
 }

@@ -15,14 +15,14 @@ import java.io.Serializable;
 public class TypeAccountRequestDTO implements Serializable {
 
 
-    @NotNull
-    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$")
+    @NotNull(message = "type cannot be null")
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$", message = "Incorrect type format")
     private String type;
-    @NotNull
-    @Size(max = 100)
-    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ .,;]+$")
+    @NotNull(message = "description cannot be null")
+    @Size(max = 100, message = "description exceeds allowed length")
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ .,;]+$", message = "Incorrect description format")
     private String description;
-    @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
+    @Pattern(regexp = "^(ACTIVE|INACTIVE)$", message = "Incorrect status")
     private String status;
 
 }

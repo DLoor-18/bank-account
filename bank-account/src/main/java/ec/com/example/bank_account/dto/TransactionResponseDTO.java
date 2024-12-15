@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class TransactionResponseDTO implements Serializable {
 
-    private Double value;
+    private BigDecimal value;
     private Date date;
     private String status;
     private AccountResponseDTO account;

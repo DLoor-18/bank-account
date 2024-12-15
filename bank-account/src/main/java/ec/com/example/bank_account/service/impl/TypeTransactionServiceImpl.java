@@ -2,6 +2,7 @@ package ec.com.example.bank_account.service.impl;
 
 import ec.com.example.bank_account.dto.TypeTransactionRequestDTO;
 import ec.com.example.bank_account.dto.TypeTransactionResponseDTO;
+import ec.com.example.bank_account.exception.EmptyCollectionException;
 import ec.com.example.bank_account.mapper.TypeTransactionMapper;
 import ec.com.example.bank_account.repository.TypeTransactionRepository;
 import ec.com.example.bank_account.service.TypeTransactionService;
@@ -25,23 +26,17 @@ public class TypeTransactionServiceImpl implements TypeTransactionService {
 
     @Override
     public TypeTransactionResponseDTO createTypeTransaction(TypeTransactionRequestDTO typeTransaction) {
-        try {
-            return typeTransactionMapper.mapToDTO(typeTransactionRepository.save(typeTransactionMapper.mapToEntity(typeTransaction)));
-        } catch (Exception e) {
-            log.error("Error en createTypeTransaction() {}", e.getMessage());
-            throw e;
-        }
+        return typeTransactionMapper.mapToDTO(typeTransactionRepository.save(typeTransactionMapper.mapToEntity(typeTransaction)));
     }
 
     @Override
     public List<TypeTransactionResponseDTO> getAllTypeTransactions() {
-        try {
-            return typeTransactionRepository.findAll()
-                    .stream().map(typeTransactionMapper::mapToDTO).collect(Collectors.toList());
+        List<TypeTransactionResponseDTO> response = typeTransactionRepository.findAll()
+                .stream().map(typeTransactionMapper::mapToDTO).collect(Collectors.toList());
 
-        } catch (Exception e) {
-            log.error("Error en getAllTypeTransactions() {}", e.getMessage());
-            throw e;
+        if (response.isEmpty()) {
+            throw new EmptyCollectionException("No typesTransaction records found.");
         }
+        return response;
     }
 }

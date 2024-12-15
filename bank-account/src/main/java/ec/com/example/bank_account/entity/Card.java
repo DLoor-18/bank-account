@@ -1,36 +1,37 @@
 package ec.com.example.bank_account.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "cards")
+@Document(collection = "cards")
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "holder_name")
+    @Field(name = "holder_name")
     private String holderName;
 
-    @Column(name = "limitation")
-    private Double limitation;
+    @Field(name = "limitation")
+    private BigDecimal limitation;
 
-    @Column(name = "cvc_code")
+    @Field(name = "cvc_code")
     private String cvcCode;
 
-    @Column(name = "expiration_date")
+    @Field(name = "expiration_date")
     private Date expirationDate;
 
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @JoinColumn(name = "id_account")
-    @ManyToOne
+    @DBRef
     private Account account;
 
 }

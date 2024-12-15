@@ -1,37 +1,37 @@
 package ec.com.example.bank_account.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "transactions")
+@Document(collection = "transactions")
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "details")
+    @Field(name = "details")
     private String details;
 
-    @Column(name = "value")
-    private Double value;
+    @Field(name = "value")
+    private BigDecimal value;
 
-    @Column(name = "date")
+    @Field(name = "date")
     private Date date;
 
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @JoinColumn(name = "id_account")
-    @ManyToOne
+    @DBRef
     private Account account;
 
-    @JoinColumn(name = "id_type_transaction")
-    @ManyToOne
+    @DBRef
     private TypeTransaction typeTransaction;
 
 }

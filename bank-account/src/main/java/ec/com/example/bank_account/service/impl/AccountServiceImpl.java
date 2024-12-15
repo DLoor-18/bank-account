@@ -2,13 +2,13 @@ package ec.com.example.bank_account.service.impl;
 
 import ec.com.example.bank_account.dto.AccountRequestDTO;
 import ec.com.example.bank_account.dto.AccountResponseDTO;
+import ec.com.example.bank_account.exception.EmptyCollectionException;
 import ec.com.example.bank_account.mapper.AccountMapper;
 import ec.com.example.bank_account.repository.AccountRepository;
 import ec.com.example.bank_account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,24 +25,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponseDTO createAccount(AccountRequestDTO accountRequestDTO) {
-        try {
-            return accountMapper.mapToDTO(accountRepository.save(accountMapper.mapToEntity(accountRequestDTO)));
-        } catch (Exception e) {
-            log.error("Error en createAccount() {}", e.getMessage());
-            throw e;
-        }
+        return accountMapper.mapToDTO(accountRepository.save(accountMapper.mapToEntity(accountRequestDTO)));
     }
 
     @Override
     public List<AccountResponseDTO> getAllAccounts() {
-        try {
-            List<AccountResponseDTO> response = accountRepository.findAll().stream()
-                    .map(accountMapper::mapToDTO).collect(Collectors.toList());
+        List<AccountResponseDTO> response = accountRepository.findAll().stream()
+                .map(accountMapper::mapToDTO).collect(Collectors.toList());
 
-            return !response.isEmpty() ? response : Collections.emptyList();
-        } catch (Exception e) {
-            log.error("Error en getAllAccounts() {}", e.getMessage());
-            throw e;
+        if (response.isEmpty()) {
+            throw new EmptyCollectionException("No accounts records found.");
         }
+        return response;
     }
 }

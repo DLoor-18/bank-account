@@ -5,6 +5,7 @@ import ec.com.example.bank_account.dto.TransactionResponseDTO;
 import ec.com.example.bank_account.entity.Account;
 import ec.com.example.bank_account.entity.Transaction;
 import ec.com.example.bank_account.entity.TypeTransaction;
+import ec.com.example.bank_account.exception.RecordNotFoundException;
 import ec.com.example.bank_account.repository.AccountRepository;
 import ec.com.example.bank_account.repository.TypeTransactionRepository;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ public class TransactionMapper {
         Account account = accountRepository.findByNumber(transactionRequestDTO.getAccountNumber());
 
         TypeTransaction typeTransaction = typeTransactionRepository.findById(transactionRequestDTO.getTypeTransactionId())
-                .orElseThrow(() -> new RuntimeException("typeTransaction not found"));
+                .orElseThrow(() -> new RecordNotFoundException("TypeTransaction not found."));
 
         Transaction transaction = new Transaction();
         transaction.setDetails(transactionRequestDTO.getDetails());

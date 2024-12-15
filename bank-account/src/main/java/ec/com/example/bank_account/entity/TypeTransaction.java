@@ -1,39 +1,42 @@
 package ec.com.example.bank_account.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "types_transaction")
+@Document(collection = "types_transaction")
 public class TypeTransaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(name = "type", unique = true)
+    @Id
+    private String id;
+
+    @Indexed(unique = true)
+    @Field(name = "type")
     private String type;
 
-    @Column(name = "description")
+    @Field(name = "description")
     private String description;
 
-    @Column(name = "value")
-    private Double value;
+    @Field(name = "value")
+    private BigDecimal value;
 
-    @Column(name = "transaction_cost")
+    @Field(name = "transaction_cost")
     private Boolean transactionCost;
 
-    @Column(name = "discount")
+    @Field(name = "discount")
     private Boolean discount;
 
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "typeTransaction", orphanRemoval = true)
-    @JsonIgnore
+    @DBRef
     private List<Transaction> transactions;
 
 }

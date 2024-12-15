@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.Date;
 public class CardResponseDTO implements Serializable {
 
     private String holderName;
-    private Double limitation;
+    private BigDecimal limitation;
     private String cvcCode;
     private Date expirationDate;
     private String status;

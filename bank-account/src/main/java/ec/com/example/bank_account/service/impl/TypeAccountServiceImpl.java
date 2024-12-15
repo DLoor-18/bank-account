@@ -2,6 +2,7 @@ package ec.com.example.bank_account.service.impl;
 
 import ec.com.example.bank_account.dto.TypeAccountRequestDTO;
 import ec.com.example.bank_account.dto.TypeAccountResponseDTO;
+import ec.com.example.bank_account.exception.EmptyCollectionException;
 import ec.com.example.bank_account.mapper.TypeAccountMapper;
 import ec.com.example.bank_account.repository.TypeAccountRepository;
 import ec.com.example.bank_account.service.TypeAccountService;
@@ -26,23 +27,17 @@ public class TypeAccountServiceImpl implements TypeAccountService {
 
     @Override
     public TypeAccountResponseDTO createTypeAccount(TypeAccountRequestDTO typeAccount) {
-        try {
-            return typeAccountMapper.mapToDTO(typeAccountRepository.save(typeAccountMapper.mapToEntity(typeAccount)));
-        } catch (Exception e) {
-            log.error("Error en createTypeAccount() {}", e.getMessage());
-            throw e;
-        }
+        return typeAccountMapper.mapToDTO(typeAccountRepository.save(typeAccountMapper.mapToEntity(typeAccount)));
     }
 
     @Override
     public List<TypeAccountResponseDTO> getAllTypeAccount() {
-        try {
-            return typeAccountRepository.findAll()
-                   .stream().map(typeAccountMapper::mapToDTO).collect(Collectors.toList());
+        List<TypeAccountResponseDTO> response = typeAccountRepository.findAll()
+               .stream().map(typeAccountMapper::mapToDTO).collect(Collectors.toList());
 
-        } catch (Exception e) {
-            log.error("Error en getAllTypeAccount() {}", e.getMessage());
-            throw e;
+        if (response.isEmpty()) {
+            throw new EmptyCollectionException("No typesAccount records found.");
         }
+        return response;
     }
 }

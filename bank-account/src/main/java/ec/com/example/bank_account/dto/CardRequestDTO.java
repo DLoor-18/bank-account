@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -17,22 +18,22 @@ import java.util.Date;
 @AllArgsConstructor
 public class CardRequestDTO implements Serializable {
 
-    @NotNull
-    @Size(max = 30)
-    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$")
+    @NotNull(message = "holderName cannot be null")
+    @Size(max = 30, message = "holderName exceeds allowed length")
+    @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$", message = "Incorrect holderName format")
     private String holderName;
-    @NotNull
-    private Double limitation;
-    @NotNull
-    @Size(min = 3, max = 3)
-    @Pattern(regexp = "^[0-9]+$")
+    @NotNull(message = "limitation cannot be null")
+    private BigDecimal limitation;
+    @NotNull(message = "cvcCode cannot be null")
+    @Size(min = 3, max = 3, message = "Incorrect cvcCode length")
+    @Pattern(regexp = "^[0-9]+$", message = "Incorrect cvcCode format")
     private String cvcCode;
     @JsonFormat(pattern = "dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date expirationDate;
-    @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
+    @Pattern(regexp = "^(ACTIVE|INACTIVE)$", message = "Incorrect status")
     private String status;
-    @NotNull
-    private Long accountId;
+    @NotNull(message = "accountId cannot be null")
+    private String accountId;
 
 }
