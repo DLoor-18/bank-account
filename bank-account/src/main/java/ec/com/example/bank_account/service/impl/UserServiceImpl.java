@@ -7,13 +7,11 @@ import ec.com.example.bank_account.exception.EmptyCollectionException;
 import ec.com.example.bank_account.mapper.UserMapper;
 import ec.com.example.bank_account.repository.UserRepository;
 import ec.com.example.bank_account.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -39,15 +37,5 @@ public class UserServiceImpl implements UserService {
             throw new EmptyCollectionException("No users records found.");
         }
         return response;
-    }
-
-    @Override
-    public UserResponseDTO getUserByCi(String ci) {
-        User response = userRepository.findByCi(ci);
-
-        if (response == null) {
-            throw new EmptyCollectionException("No user record found.");
-        }
-        return userMapper.mapToDTO(response);
     }
 }

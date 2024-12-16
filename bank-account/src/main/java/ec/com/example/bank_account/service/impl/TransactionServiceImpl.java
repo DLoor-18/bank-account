@@ -9,7 +9,6 @@ import ec.com.example.bank_account.mapper.TransactionMapper;
 import ec.com.example.bank_account.repository.AccountRepository;
 import ec.com.example.bank_account.repository.TransactionRepository;
 import ec.com.example.bank_account.service.TransactionService;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;

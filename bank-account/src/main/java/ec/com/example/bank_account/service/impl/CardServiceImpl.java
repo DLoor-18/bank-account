@@ -6,13 +6,12 @@ import ec.com.example.bank_account.exception.EmptyCollectionException;
 import ec.com.example.bank_account.mapper.CardMapper;
 import ec.com.example.bank_account.repository.CardRepository;
 import ec.com.example.bank_account.service.CardService;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class CardServiceImpl implements CardService {
     private final CardRepository cardRepository;

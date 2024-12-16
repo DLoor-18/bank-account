@@ -25,6 +25,10 @@ public class AccountMapper {
     }
 
     public Account mapToEntity(AccountRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Account account = new Account();
         account.setNumber(dto.getNumber());
         account.setAvailableBalance(dto.getAvailableBalance());
@@ -44,6 +48,9 @@ public class AccountMapper {
     }
 
     public AccountResponseDTO mapToDTO(Account account) {
+        if (account == null) {
+            return null;
+        }
 
         return new AccountResponseDTO(
                 account.getNumber(),

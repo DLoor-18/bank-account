@@ -11,6 +11,4 @@ public interface UserService {
 
     List<UserResponseDTO> getAllUsers();
 
-    UserResponseDTO getUserByCi(String ci);
-
 }

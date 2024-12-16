@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class TypeTransactionRequestDTO implements Serializable {
 
-    @Schema(description = "Type of transaction type", example = "Deposit from branch.")
+    @Schema(description = "Type of transaction type", example = "Deposit from branch")
     @NotNull(message = "type cannot be null")
     @Pattern(regexp = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ -]+$", message = "Incorrect type format")
     private String type;
